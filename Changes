@@ -1,0 +1,5 @@
+____________________________________________________________________________
+[  3690] By: autrijus                              on 2003/01/20  11:08:53
+        Log: * Lingua::ZH::Keywords 0.01.
+	   + Keywords.pm MANIFEST Makefile.PL README
+	   + t/0-signature.t t/1-basic.t t/2-utf8.t
