@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 # $File: //member/autrijus/Lingua-ZH-Keywords/t/1-basic.t $ $Author: autrijus $
-# $Revision: #1 $ $Change: 3690 $ $DateTime: 2003/01/20 11:08:53 $
+# $Revision: #2 $ $Change: 3699 $ $DateTime: 2003/01/20 14:50:03 $
 
 use strict;
 use Test;
@@ -12,7 +12,7 @@ ok($Lingua::ZH::Keywords::VERSION) if $Lingua::ZH::Keywords::VERSION or 1;
 
 ok(
     join(',', Lingua::ZH::Keywords::keywords(do { local $/; <DATA> }, 10)),
-    '站台,模組,映射,語言,系統,作者,典藏,程式,軟體,命名'
+    '站台,模組,映射,語言,系統,軟體,程式,作者,典藏,自己'
 );
 
 __DATA__

@@ -1,8 +1,8 @@
 # $File: //member/autrijus/Lingua-ZH-Keywords/Keywords.pm $ $Author: autrijus $
-# $Revision: #1 $ $Change: 3690 $ $DateTime: 2003/01/20 11:08:53 $
+# $Revision: #3 $ $Change: 3699 $ $DateTime: 2003/01/20 14:50:03 $
 
 package Lingua::ZH::Keywords;
-$Lingua::ZH::Keywords::VERSION = '0.01';
+$Lingua::ZH::Keywords::VERSION = '0.02';
 
 use strict;
 use vars qw($VERSION @ISA @EXPORT @StopWords);
@@ -60,7 +60,7 @@ sub keywords {
     eval { require Encode::compat } if $] < 5.007;
     my $is_utf8 = eval { require Encode; Encode::is_utf8($_[0]) };
 
-    my %hist;
+    my (%hist, %ref);
     $hist{$_}++ for grep(length > 2, $Tabe->split(
 	$is_utf8 ? Encode::encode(big5 => $_[0]) : $_[0]
     ));
@@ -68,9 +68,20 @@ sub keywords {
 
     my $count = $_[1] || 5;
 
-    # XXX: sort by word freq in case of serious ties?
-    map { $is_utf8 ? Encode::decode(big5 => $_) : $_ }
-	(sort { $hist{$b} <=> $hist{$a} } keys %hist)[ 0 .. $count-1 ];
+    # By occurence, then freq, then lexical order
+    map { $is_utf8 ? Encode::decode(big5 => $_) : $_ } (sort {
+	$hist{$b} <=> $hist{$a}
+	    or
+	($ref{$b} ||= freq($b)) <=> ($ref{$a} ||= freq($a))
+	    or
+	$b cmp $a
+    } keys %hist)[ 0 .. $count-1 ];
+}
+
+sub refcount {
+    my $tsi = $Tabe->Tsi($_[0]);
+    $Tabe->TsiDB->Get($tsi);
+    return $tsi->freq;
 }
 
 1;
@@ -79,7 +90,7 @@ __END__
 
 =head1 SEE ALSO
 
-L<Lingua::ZH::TaBE>, <Lingua::EN::Keywords>
+L<Lingua::ZH::TaBE>, L<Lingua::EN::Keywords>
 
 =head1 ACKNOWLEDGEMENTS
 

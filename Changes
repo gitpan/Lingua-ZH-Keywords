@@ -1,4 +1,19 @@
 ____________________________________________________________________________
+[  3699] By: autrijus                              on 2003/01/20  14:50:03
+        Log: * 0.02.
+             * Tie-breaking algorithm (freq, then lexical order)
+	       employed
+             to solve dependency on hash ordering.
+	   ! Keywords.pm t/1-basic.t
+____________________________________________________________________________
+[  3692] By: autrijus                              on 2003/01/20  11:15:45
+        Log: * oops, should've run podchecker first.
+	   ! Keywords.pm
+____________________________________________________________________________
+[  3691] By: autrijus                              on 2003/01/20  11:09:21
+        Log: * changes and signatures.
+	   + Changes SIGNATURE
+____________________________________________________________________________
 [  3690] By: autrijus                              on 2003/01/20  11:08:53
         Log: * Lingua::ZH::Keywords 0.01.
 	   + Keywords.pm MANIFEST Makefile.PL README
