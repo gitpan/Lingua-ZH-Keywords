@@ -1,8 +1,8 @@
 # $File: //member/autrijus/Lingua-ZH-Keywords/Keywords.pm $ $Author: autrijus $
-# $Revision: #3 $ $Change: 3699 $ $DateTime: 2003/01/20 14:50:03 $
+# $Revision: #5 $ $Change: 3703 $ $DateTime: 2003/01/20 15:02:12 $
 
 package Lingua::ZH::Keywords;
-$Lingua::ZH::Keywords::VERSION = '0.02';
+$Lingua::ZH::Keywords::VERSION = '0.03';
 
 use strict;
 use vars qw($VERSION @ISA @EXPORT @StopWords);
@@ -78,10 +78,10 @@ sub keywords {
     } keys %hist)[ 0 .. $count-1 ];
 }
 
-sub refcount {
+sub freq {
     my $tsi = $Tabe->Tsi($_[0]);
     $Tabe->TsiDB->Get($tsi);
-    return $tsi->freq;
+    return $tsi->refcount;
 }
 
 1;

@@ -1,4 +1,22 @@
 ____________________________________________________________________________
+[  3703] By: autrijus                              on 2003/01/20  15:02:12
+        Log: * This be 0.03.
+             * both 5.6.1 and 5.8 pass tests here.
+	   ! Keywords.pm t/2-utf8.t
+____________________________________________________________________________
+[  3702] By: autrijus                              on 2003/01/20  14:55:50
+        Log: * 0.03.
+             * double oops! juxtaposed refcount and freq. 
+	   ! Keywords.pm
+____________________________________________________________________________
+[  3701] By: autrijus                              on 2003/01/20  14:55:35
+        Log: * oops! didn't fix the utf8 test.
+	   ! t/2-utf8.t
+____________________________________________________________________________
+[  3700] By: autrijus                              on 2003/01/20  14:53:57
+        Log: * changes and signatures.
+	   ! Changes SIGNATURE
+____________________________________________________________________________
 [  3699] By: autrijus                              on 2003/01/20  14:50:03
         Log: * 0.02.
              * Tie-breaking algorithm (freq, then lexical order)

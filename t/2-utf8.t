@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 # $File: //member/autrijus/Lingua-ZH-Keywords/t/2-utf8.t $ $Author: autrijus $
-# $Revision: #1 $ $Change: 3690 $ $DateTime: 2003/01/20 11:08:53 $
+# $Revision: #3 $ $Change: 3703 $ $DateTime: 2003/01/20 15:02:12 $
 
 use strict;
 use Test;
@@ -14,13 +14,16 @@ BEGIN {
     plan tests => 2;
 }
 
-use utf8;
 require Lingua::ZH::Keywords;
 ok($Lingua::ZH::Keywords::VERSION) if $Lingua::ZH::Keywords::VERSION or 1;
 
+use utf8;
+my $data = do { local $/; <DATA> };
+Encode::_utf8_on($data);
+
 ok(
-    join(',', Lingua::ZH::Keywords::keywords(do { local $/; <DATA> }, 10)),
-    '站台,模組,映射,語言,系統,作者,典藏,程式,軟體,命名'
+    join(',', Lingua::ZH::Keywords::keywords($data, 10)),
+    '站台,模組,映射,語言,系統,軟體,程式,作者,典藏,自己'
 );
 
 __DATA__
