@@ -1,8 +1,8 @@
 # $File: //member/autrijus/Lingua-ZH-Keywords/Keywords.pm $ $Author: autrijus $
-# $Revision: #5 $ $Change: 3703 $ $DateTime: 2003/01/20 15:02:12 $
+# $Revision: #9 $ $Change: 3723 $ $DateTime: 2003/01/20 22:15:45 $
 
 package Lingua::ZH::Keywords;
-$Lingua::ZH::Keywords::VERSION = '0.03';
+$Lingua::ZH::Keywords::VERSION = '0.04';
 
 use strict;
 use vars qw($VERSION @ISA @EXPORT @StopWords);
@@ -37,19 +37,20 @@ Big5-encoded bytestrings.
 
 =cut
 
-@StopWords = qw(
-    提供 相關 我們 一個 可以 一頁 一筆 如何 因為 目前 如果 其他 我的 一張
-    大家 沒有 主要 所以 以上 這個 所有 有關 就是 他們 因此 一項 但是 以及
-    是否 由於 對於 任何 什麼 這些 現在 無法 成為 可能 不過 包括 必須 關於
-    這是 這樣 以下 已經 你的 一些 一則 雖然 許多 也是 不是 除了 一次 還是
-    為了 之後 只要 其中 都是 各種 還有 非常 而且 這種 其它 不要 我要 他的
-    只是 各位 一種 只有 的話 一下 不能 這裡 相當 我是 全部 很多 可是 一樣
-    或是 其實 一段 那麼 你們 下列 如此 另外 然後 各項 才能 不會 甚至 總會
-    不得 怎麼 即可 作為 至於 當然 根據 我想 能夠 之間 之一 為何 不知 例如
-    期間 時候 一層 也有 一直 常見 並且 容易 我有 實際 有人 一位 一點 有些
-    分別 一定 十二 並不 以後 使得 一篇 一日 經由 重新 一起 如下 在此 另一
-    這麼 一切 那些 整個 都有 這次 之前 令人 來的 就會 心理 上述 位於 那個
-    而已 使用 假如 我們的 
+@ISA	    = qw(Exporter);
+@EXPORT	    = qw(keywords);
+
+@StopWords  = qw(
+    提供 相關 我們 可以 如何 因為 目前 如果 其他 我的 大家 沒有 主要 所以
+    以上 這個 所有 有關 就是 他們 因此 但是 以及 是否 由於 對於 任何 什麼
+    這些 現在 無法 成為 可能 不過 包括 必須 關於 這是 這樣 以下 已經 你的
+    雖然 許多 也是 不是 除了 還是 為了 之後 只要 其中 都是 各種 還有 非常
+    而且 這種 其它 不要 我要 他的 只是 各位 只有 的話 不能 這裡 相當 我是
+    全部 很多 可是 或是 其實 那麼 你們 下列 如此 另外 然後 各項 才能 不會
+    甚至 總會 不得 怎麼 即可 作為 至於 當然 根據 我想 能夠 之間 為何 不知
+    例如 期間 時候 也有 常見 並且 容易 我有 實際 有人 有些 分別 並不 以後
+    使得 經由 重新 如下 在此 這麼 那些 整個 都有 這次 之前 令人 來的 就會
+    上述 位於 那個 而已 使用 假如 於是 還得 是在 無法 何況 曾經 我們的 
 );
 
 my $Tabe;
@@ -61,15 +62,19 @@ sub keywords {
     my $is_utf8 = eval { require Encode; Encode::is_utf8($_[0]) };
 
     my (%hist, %ref);
-    $hist{$_}++ for grep(length > 2, $Tabe->split(
+    $hist{$_}++ for grep {
+	length > 2 and index($_, '一') == -1
+    } $Tabe->split(
 	$is_utf8 ? Encode::encode(big5 => $_[0]) : $_[0]
-    ));
+    );
     delete @hist{@StopWords};
 
     my $count = $_[1] || 5;
 
     # By occurence, then freq, then lexical order
-    map { $is_utf8 ? Encode::decode(big5 => $_) : $_ } (sort {
+    map {
+	$is_utf8 ? Encode::decode(big5 => $_) : $_
+    } grep length, (sort {
 	$hist{$b} <=> $hist{$a}
 	    or
 	($ref{$b} ||= freq($b)) <=> ($ref{$a} ||= freq($a))
